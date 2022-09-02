@@ -7,13 +7,13 @@ using Voting_System.Domain.Enums;
 
 namespace Voting_System.Domain.Entities
 {
-    public class Candidate
+    public record Candidate
     {
         public Guid Id { get; set; }
         public string? FullName { set; get; }
         public DateTime DateOfBirth { set; get; }
         public Party PoliticalParty { set; get; }
-        public string? ShortDescription { set; get; }
-        public uint? Votes { set; get; }
+        public string? ShortDescription { set; get; } 
+        public uint? Votes { set; get; } = 0;
     }
 }

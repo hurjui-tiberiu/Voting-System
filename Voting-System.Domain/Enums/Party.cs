@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Voting_System.Domain.Enums
 {
-    internal class Party
+    public enum Party
     {
+        RightParty,
+        LeftParty,
+        Neutral
     }
 }
