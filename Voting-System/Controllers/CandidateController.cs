@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+
+using Microsoft.AspNetCore.Mvc;
 using Voting_System.Application.Interfaces;
 using Voting_System.Domain.Entities;
 
@@ -19,7 +21,7 @@ namespace Voting_System.Controllers
         [HttpGet, Route("/get")]
         public async Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync()
         {
-            return await this.candidateService.GetAllCandidatesAsync();
+            return await candidateService.GetAllCandidatesAsync();
         }
 
         [HttpDelete, Route("/delete")]

@@ -6,11 +6,8 @@ using Voting_System.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddTransient<ICandidateRepository, CandidateRepository>();
 builder.Services.AddTransient<ICandidateService, CandidateService>();
-
 
 
 builder.Services.AddControllers();

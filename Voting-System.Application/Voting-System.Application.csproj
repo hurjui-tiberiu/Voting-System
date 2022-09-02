@@ -1,5 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
+	
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Voting_System.Application</RootNamespace>
@@ -14,6 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Voting-System.Domain\Voting-System.Domain.csproj" />
     <ProjectReference Include="..\Voting-System.Infrastructure\Voting-System.Infrastructure.csproj" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

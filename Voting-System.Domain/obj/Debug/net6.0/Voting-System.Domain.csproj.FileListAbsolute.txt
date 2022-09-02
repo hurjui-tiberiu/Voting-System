@@ -1,4 +1,5 @@
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\bin\Debug\net6.0\Voting-System.Domain.deps.json
+C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\bin\Debug\net6.0\Voting-System.Domain.runtimeconfig.json
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\bin\Debug\net6.0\Voting-System.Domain.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\bin\Debug\net6.0\Voting-System.Domain.pdb
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\Voting-System.Domain.csproj.AssemblyReference.cache
@@ -9,6 +10,5 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\Voting
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\Voting-System.Domain.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\refint\Voting-System.Domain.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\Voting-System.Domain.pdb
-C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\ref\Voting-System.Domain.dll
-C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\bin\Debug\net6.0\Voting-System.Domain.runtimeconfig.json
 C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\Voting-System.Domain.genruntimeconfig.cache
+C:\Users\Tibi\Desktop\Voting-System\Voting-System.Domain\obj\Debug\net6.0\ref\Voting-System.Domain.dll
