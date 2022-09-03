@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ICandidateRepository, CandidateRepository>();
 builder.Services.AddTransient<ICandidateService, CandidateService>();
 
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
