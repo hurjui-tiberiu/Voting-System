@@ -69,3 +69,5 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\refint\Voting
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\Voting-System.pdb
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\Voting-System.genruntimeconfig.cache
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\ref\Voting-System.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

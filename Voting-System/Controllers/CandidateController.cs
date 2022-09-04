@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Voting_System.Application.Interfaces;
+using Voting_System.Application.Models.CandidateDto;
 using Voting_System.Domain.Entities;
 
 namespace Voting_System.Controllers
@@ -19,7 +20,7 @@ namespace Voting_System.Controllers
         }
 
         [HttpGet, Route("/get")]
-        public async Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync()
+        public async Task<ActionResult<List<CandidateRequestDto>>> GetAllCandidatesAsync()
         {
             return await candidateService.GetAllCandidatesAsync();
         }
@@ -31,9 +32,9 @@ namespace Voting_System.Controllers
         }
 
         [HttpPut, Route("/put")]
-        public async Task<IActionResult> AddCandidate(Candidate candidate)
+        public async Task<IActionResult> AddCandidate(CandidateRequestDto candidateDto)
         {
-            return await candidateService.AddCandidateAsync(candidate);
+            return await candidateService.AddCandidateAsync(candidateDto);
         }
         
     }

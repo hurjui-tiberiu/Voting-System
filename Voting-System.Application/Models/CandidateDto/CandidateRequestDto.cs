@@ -7,7 +7,7 @@ using Voting_System.Domain.Enums;
 
 namespace Voting_System.Application.Models.CandidateDto
 {
-    public record CandidateDto
+    public record CandidateRequestDto
     {
         public string? FullName { set; get; }
         public DateTime DateOfBirth { set; get; }
