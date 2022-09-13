@@ -1,39 +1,51 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Voting_System.Domain.Entities;
+using Voting_System.Infrastructure.Configurations;
 using Voting_System.Infrastructure.Interfaces;
 
 namespace Voting_System.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public Task<IActionResult> CreateUserAsync(User user)
+        private readonly EFContext context;
+
+        public UserRepository(EFContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        public Task<IActionResult> DeleteUserAsync(Guid userId)
+        public async Task CreateUserAsync(User user)
         {
-            throw new NotImplementedException();
+           context.Add(user);
+           await context.SaveChangesAsync();
         }
 
-        public Task<ActionResult<List<User>>> GetAllUsersAsync()
+        public async Task DeleteUserAsync(User user)
         {
-            throw new NotImplementedException();
+           context.Remove(user);
+           await context.SaveChangesAsync();
         }
 
-        public Task<ActionResult<User>> GetUserByIdAsync(Guid userId)
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return await context.Users.ToListAsync();
         }
 
-        public Task<IActionResult> UpdateUserAsync(User user)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            return await context.Users.FirstOrDefaultAsync(entity => entity.Id.Equals(userId));
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+             context.Update(user);
+            await context.SaveChangesAsync();
         }
     }
 }

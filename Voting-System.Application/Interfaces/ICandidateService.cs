@@ -6,8 +6,10 @@ namespace Voting_System.Application.Interfaces
 {
     public interface ICandidateService
     {
-        Task<IActionResult> AddCandidateAsync(CandidateRequestDto candidate);
-        Task<IActionResult> RemoveCandidateAsync(Guid candidateId);
-        Task<ActionResult<List<CandidateRequestDto>>> GetAllCandidatesAsync();
+        Task AddCandidateAsync(CandidateRequestDto candidate);
+        Task RemoveCandidateAsync(Guid candidateId);
+        Task<List<CandidateRequestDto>> GetAllCandidatesAsync();
+        Task PatchCandidateAsync(Guid candidateId, dynamic property);
+        Task VoteCandidate(Guid candidateId);
     }
 }

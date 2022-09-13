@@ -24,32 +24,39 @@ namespace Voting_System.Application.Services
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> CreateUserAsync(UserRequestDto userDto)
+        public async Task CreateUserAsync(UserRequestDto userDto)
         {
             var user = mapper.Map<User>(userDto);
-            return await userRepository.CreateUserAsync(user);
+            await userRepository.CreateUserAsync(user);
         }
 
-        public async Task<IActionResult> DeleteUserAsync(Guid userId)
+        public async Task DeleteUserAsync(Guid userId)
         {
-           return await userRepository.DeleteUserAsync(userId);
+           var user = await userRepository.GetUserByIdAsync(userId);
+            if(user is not null)
+                await userRepository.DeleteUserAsync(user);
         }
 
-        public async Task<ActionResult<List<UserRequestDto>>> GetAllUsersAsync()
+        public async Task<List<UserRequestDto>> GetAllUsersAsync()
         {
            var users =  await userRepository.GetAllUsersAsync();
            return mapper.Map<List<UserRequestDto>>(users);
         }
 
-        public async Task<ActionResult> GetUserByIdAsync(Guid userId)
+        public async Task<UserRequestDto> GetUserByIdAsync(Guid userId)
         {
-            return await GetUserByIdAsync(userId);
+           var user = await userRepository.GetUserByIdAsync(userId);
+            return mapper.Map<UserRequestDto>(user);
         }
 
-        public async Task<IActionResult> UpdateUserAsync(Guid userId, dynamic property)
+        public async Task UpdateUserAsync(Guid userId, dynamic property)
         {
-            var userPatch = JsonConvert.DeserializeObject<User>(property.ToString());
-            return await userRepository.UpdateUserAsync(userPatch);
+            var userPatch = JsonConvert.DeserializeObject<UserPatchDto>(property.ToString());
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
+
+            await userRepository.UpdateUserAsync(mappedUser);
         }
     }
 }

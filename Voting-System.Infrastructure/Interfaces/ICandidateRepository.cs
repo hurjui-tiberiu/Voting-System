@@ -10,8 +10,10 @@ namespace Voting_System.Infrastructure.Interfaces
 {
     public interface ICandidateRepository
     {
-        Task<IActionResult> AddCandidateAsync(Candidate candidate);
-        Task<IActionResult> RemoveCandidateAsync(Guid candidateId);
-        Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync();
+        Task AddCandidateAsync(Candidate candidate);
+        Task RemoveCandidateAsync(Candidate candidate);
+        Task<List<Candidate>> GetAllCandidatesAsync();
+        Task<Candidate?> GetCandidateAsync(Guid candidateId);
+        Task UpdateCandidateAsync(Candidate candidate);
     }
 }

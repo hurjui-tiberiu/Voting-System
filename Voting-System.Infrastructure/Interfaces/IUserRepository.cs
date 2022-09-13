@@ -10,10 +10,10 @@ namespace Voting_System.Infrastructure.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IActionResult> CreateUserAsync(User user);
-        Task<IActionResult> DeleteUserAsync(Guid userId);
-        Task<ActionResult<User>> GetUserByIdAsync(Guid userId);
-        Task<ActionResult<List<User>>> GetAllUsersAsync();
-        Task<IActionResult> UpdateUserAsync(User user);
+        Task CreateUserAsync(User user);
+        Task  DeleteUserAsync(User user);
+        Task<User?> GetUserByIdAsync(Guid userId);
+        Task<List<User>> GetAllUsersAsync();
+        Task UpdateUserAsync(User user);
     }
 }

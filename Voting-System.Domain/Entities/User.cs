@@ -14,5 +14,8 @@ namespace Voting_System.Domain.Entities
         public uint IdentityCardNumber { get; set; }
         public string? IdentityCardSeries { get; set; }
         public DateTime? IdentityCardEmitedDate { get; set; }
+        public string? Mail { get; set; }
+        public string? Password {get;set;}
+        public bool? Voted { get; set; }
     }
 }

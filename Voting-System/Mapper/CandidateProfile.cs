@@ -35,6 +35,9 @@ namespace Voting_System.Mapper
                   .ForMember(destination => destination.PoliticalParty,
             map => map.MapFrom(
                 source => source.PoliticalParty));
+
+            CreateMap<CandidatePatchDto, Candidate>()
+             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

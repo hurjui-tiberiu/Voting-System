@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.Models.UserDto;
-using Voting_System.Domain.Entities;
-using Voting_System.Infrastructure.Interfaces;
 
 namespace Voting_System.Controllers
 {
@@ -12,40 +10,55 @@ namespace Voting_System.Controllers
         private readonly IUserService userService;
         private readonly ILogger logger;
 
-        public UserController(IUserService userService, ILogger logger)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             this.userService = userService;
             this.logger = logger;
         }
 
-         [HttpGet, Route("/{id}")]
-         public async Task<ActionResult<UserRequestDto>> GetUserByIdAsync(Guid userId)
-         {
-             return await userService.GetUserByIdAsync(userId);
-         }
+        [HttpGet, Route("/{userId}")]
+        public async Task<ActionResult<UserRequestDto>> GetUserByIdAsync(Guid userId)
+        {
+            var user = await userService.GetUserByIdAsync(userId);
+            logger.LogInformation("User retrived");
 
-        [HttpGet]
+            return Ok(user);
+        }
+
+        [HttpGet, Route("/users")]
         public async Task<ActionResult<List<UserRequestDto>>> GetAllUsersAsync()
         {
-            return await userService.GetAllUsersAsync();
+            var users = await userService.GetAllUsersAsync();
+            logger.LogInformation("Users retrived: {count}", users.Count);
+
+            return Ok(users);
         }
 
         [HttpPut, Route("/create")]
-        public async Task<IActionResult> CreateUserAsync(UserRequestDto userDto)
+        public async Task CreateUserAsync(UserRequestDto userDto)
         {
-            return await userService.CreateUserAsync(userDto);
+            await userService.CreateUserAsync(userDto);
+
+            logger.LogInformation("User created succesfully.");
         }
 
-        [HttpDelete, Route("/delete/{id}")]
+        [HttpDelete, Route("{id}")]
         public async Task<IActionResult> DeleteUserAsync(Guid id)
         {
-            return await userService.DeleteUserAsync(id);
+            await userService.DeleteUserAsync(id);
+            logger.LogInformation("User deleted succesfully.");
+
+            return Ok();
         }
-        
-        [HttpPatch, Route("/post/{id}")]
-        public async Task<IActionResult> UpdateUserAsync(Guid userId, [FromBody]dynamic property)
+
+        [HttpPatch, Route("/post")]
+        public async Task<IActionResult> UpdateUserAsync(Guid userId, [FromBody] dynamic property)
         {
-            return await userService.UpdateUserAsync(userId, property);
+
+            await userService.UpdateUserAsync(userId, property);
+            logger.LogInformation("User updated succesfully.");
+
+            return Ok();
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Voting_System.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<IActionResult> CreateUserAsync(UserRequestDto user);
-        Task<IActionResult> DeleteUserAsync(Guid userId);
-        Task<ActionResult> GetUserByIdAsync(Guid userId);
-        Task<ActionResult<List<UserRequestDto>>> GetAllUsersAsync();
-        Task<IActionResult> UpdateUserAsync(Guid userId, dynamic property);
+        Task CreateUserAsync(UserRequestDto user);
+        Task DeleteUserAsync(Guid userId);
+        Task<UserRequestDto> GetUserByIdAsync(Guid userId);
+        Task<List<UserRequestDto>> GetAllUsersAsync();
+        Task UpdateUserAsync(Guid userId, dynamic property);
     }
 }
