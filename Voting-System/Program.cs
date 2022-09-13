@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.Services;
-using Voting_System.Infrastructure.Configurations;
+using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
 using Voting_System.Infrastructure.Repositories;
 using Voting_System.Mapper;

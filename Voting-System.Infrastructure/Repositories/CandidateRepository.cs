@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Voting_System.Domain.Entities;
-using Voting_System.Infrastructure.Configurations;
+using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
 
 namespace Voting_System.Infrastructure.Repositories
@@ -48,7 +48,10 @@ namespace Voting_System.Infrastructure.Repositories
         public async Task UpdateCandidateAsync(Candidate candidate)
         {
             context.Update(candidate);
+
+
             await context.SaveChangesAsync();
+
         }
     }
 }

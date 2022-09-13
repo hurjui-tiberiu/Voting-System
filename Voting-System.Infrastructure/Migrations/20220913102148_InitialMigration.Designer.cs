@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Voting_System.Infrastructure.Configurations;
+using Voting_System.Infrastructure.Contexts;
 
 #nullable disable
 
 namespace Voting_System.Infrastructure.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20220911130243_InitialMigration")]
+    [Migration("20220913102148_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
