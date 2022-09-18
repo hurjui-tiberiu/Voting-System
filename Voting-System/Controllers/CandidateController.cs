@@ -1,17 +1,18 @@
-﻿
-
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Voting_System.Application.Interfaces;
+using Voting_System.Application.JWTUtil;
 using Voting_System.Application.Models.CandidateDto;
-using Voting_System.Domain.Entities;
 
 namespace Voting_System.Controllers
 {
-    [Route("api/[controler]"), ApiController]
-    public class CandidateController:ControllerBase
+    [Authorize]
+    [ApiController, Route("api/[controller]/")]
+    public class CandidateController : ControllerBase
     {
         private readonly ICandidateService candidateService;
-        private readonly ILogger<CandidateController> logger;
+        private readonly ILogger logger;
 
         public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger)
         {
@@ -19,44 +20,123 @@ namespace Voting_System.Controllers
             this.logger = logger;
         }
 
-        [HttpGet, Route("/get")]
+        [SwaggerOperation(Summary = "Get all candidates | Auth:Anonymous")]
+        [HttpGet, Route("candidates"), AllowAnonymous]
         public async Task<ActionResult<List<CandidateRequestDto>>> GetAllCandidatesAsync()
         {
-            var candidates = await candidateService.GetAllCandidatesAsync();
+            try
+            {
+                var candidates = await candidateService.GetAllCandidatesAsync();
 
-            return Ok(candidates);
+                logger.LogInformation("Candidates retrived: {count}", candidates.Count);
+
+                return Ok(candidates);
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
         }
 
-        [HttpDelete, Route("/delete")]
+        [SwaggerOperation(Summary = "Delete candidate | Auth:Admin")]
+        [HttpDelete, Route("{candidateId}"), AuthorizeMultiplePolicy(Policies.Admin, false)]
         public async Task<IActionResult> DeleteCandidateAsync(Guid candidateId)
         {
-           await candidateService.RemoveCandidateAsync(candidateId);
+            try
+            {
+                await candidateService.RemoveCandidateAsync(candidateId);
 
-            return Ok();
+                logger.LogInformation("Candidate deleted succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
         }
 
-        [HttpPut, Route("/put")]
+        [SwaggerOperation(Summary = "Add candidate | Auth:Admin")]
+        [HttpPut, Route("addcandidate"), AuthorizeMultiplePolicy(Policies.Admin, true)]
         public async Task<IActionResult> AddCandidateAsync(CandidateRequestDto candidateDto)
         {
-            await candidateService.AddCandidateAsync(candidateDto);
+            try
+            {
+                await candidateService.AddCandidateAsync(candidateDto);
 
-            return Ok();
+                logger.LogInformation("Candidate created succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
         }
 
-        [HttpPatch, Route("/patch")]
+        [SwaggerOperation(Summary = "Edit candidate | Auth:Admin")]
+        [HttpPatch, Route("{candidateId}"), AuthorizeMultiplePolicy(Policies.Admin, true)]
         public async Task<IActionResult> PatchCandidateAsync(Guid candidateId, dynamic property)
         {
-            await candidateService.PatchCandidateAsync(candidateId, property);
+            try
+            {
+                await candidateService.PatchCandidateAsync(candidateId, property);
 
-            return Ok();
+                logger.LogInformation("Candidate updated succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
         }
 
-        [HttpPost, Route("/vote")]
-        public async Task<IActionResult> VoteCandidateAsync(Guid candidateId)
+        [SwaggerOperation(Summary = "Vote candidate | Auth:User")]
+        [HttpPost, Route("vote/{userId}/{candidateId}"), AuthorizeMultiplePolicy(Policies.User, true)]
+        public async Task<IActionResult> VoteCandidateAsync(Guid userId, Guid candidateId)
         {
-            await candidateService.VoteCandidate(candidateId);
+            try
+            {
+                var result = await candidateService.VoteCandidateAsync(userId, candidateId);
 
-            return Ok();
+                if (result == false)
+                    return BadRequest();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
+        }
+
+        [SwaggerOperation(Summary = "Check voting status | Auth:User")]
+        [HttpGet, Route("votingstatus"), AuthorizeMultiplePolicy(Policies.User + ";" + Policies.Admin, false)]
+        public async Task<ActionResult<List<CandidatesVotingStatus>>> GetCandidatesVotingStatusAsync()
+        {
+            try
+            {
+                var candidatesVotingStatus = await candidateService.GetCandidatesVotingStatusAsync();
+
+                return Ok(candidatesVotingStatus);
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest();
+            }
         }
     }
 }

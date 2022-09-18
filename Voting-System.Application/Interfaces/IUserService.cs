@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Voting_System.Application.Models.UserDto;
-using Voting_System.Domain.Entities;
+﻿using Voting_System.Application.Models.UserDto;
 
 namespace Voting_System.Application.Interfaces
 {
@@ -16,5 +9,7 @@ namespace Voting_System.Application.Interfaces
         Task<UserRequestDto> GetUserByIdAsync(Guid userId);
         Task<List<UserRequestDto>> GetAllUsersAsync();
         Task UpdateUserAsync(Guid userId, dynamic property);
+        Task<string?> AuthenticateUser(UserLoginDto userLoginDto);
+        Task Deauthenticate(Guid userId);
     }
 }

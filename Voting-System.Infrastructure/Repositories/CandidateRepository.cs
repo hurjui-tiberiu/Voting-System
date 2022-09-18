@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using Voting_System.Domain.Entities;
 using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
@@ -22,9 +16,9 @@ namespace Voting_System.Infrastructure.Repositories
 
         public async Task AddCandidateAsync(Candidate candidate)
         {
-           context.Add(candidate);
+            context.Add(candidate);
 
-           await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<Candidate>> GetAllCandidatesAsync()
@@ -40,7 +34,7 @@ namespace Voting_System.Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<Candidate?> GetCandidateAsync (Guid candidateId)
+        public async Task<Candidate?> GetCandidateAsync(Guid candidateId)
         {
             return await context.Candidates.FirstOrDefaultAsync(entity => entity.Id.Equals(candidateId));
         }

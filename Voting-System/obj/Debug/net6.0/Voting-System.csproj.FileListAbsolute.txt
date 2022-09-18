@@ -7,7 +7,6 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Voting-System
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Voting-System.pdb
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Humanizer.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
@@ -24,7 +23,6 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.Ide
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -71,3 +69,14 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\Voting-System
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\obj\Debug\net6.0\ref\Voting-System.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Scrutor.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\MailKit.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\MimeKit.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
