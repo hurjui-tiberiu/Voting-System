@@ -4,7 +4,7 @@ using Voting_System.Domain.Entities;
 
 namespace Voting_System.Mapper
 {
-    public class CandidateProfile:Profile
+    public class CandidateProfile : Profile
     {
         public CandidateProfile()
         {
@@ -35,6 +35,14 @@ namespace Voting_System.Mapper
                   .ForMember(destination => destination.PoliticalParty,
             map => map.MapFrom(
                 source => source.PoliticalParty));
+
+            CreateMap<Candidate, CandidatesVotingStatus>()
+                .ForMember(destination => destination.Name,
+           map => map.MapFrom(
+                 source => source.FullName))
+                .ForMember(destination => destination.Votes,
+           map => map.MapFrom(
+                 source => source.Votes));
 
             CreateMap<CandidatePatchDto, Candidate>()
              .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

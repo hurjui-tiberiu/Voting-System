@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -37,7 +36,9 @@ namespace Voting_System.Infrastructure.Migrations
                     IdentityCardEmitedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Voted = table.Column<bool>(type: "bit", nullable: true)
+                    Voted = table.Column<bool>(type: "bit", nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: true),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Voting_System.Application.Models.UserDto
+﻿namespace Voting_System.Application.Models.UserDto
 {
     public record UserRequestDto
     {
