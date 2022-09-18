@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
@@ -13,11 +15,16 @@ namespace Voting_System.Controllers
     {
         private readonly ICandidateService candidateService;
         private readonly ILogger logger;
+        private readonly IValidator<CandidateRequestDto> candidateRequestDtoValidator;
+        private readonly IValidator<CandidatePatchDto> candidatePatchDtoValidator;
 
-        public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger)
+        public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger,
+        IValidator<CandidateRequestDto> candidateRequestDtoValidator, IValidator<CandidatePatchDto> candidatePatchDtoValidator)
         {
             this.candidateService = candidateService;
             this.logger = logger;
+            this.candidateRequestDtoValidator = candidateRequestDtoValidator;
+            this.candidatePatchDtoValidator = candidatePatchDtoValidator;
         }
 
         [SwaggerOperation(Summary = "Get all candidates | Auth:Anonymous")]
@@ -36,7 +43,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -56,7 +63,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -66,6 +73,11 @@ namespace Voting_System.Controllers
         {
             try
             {
+                var result = await candidateRequestDtoValidator.ValidateAsync(candidateDto);
+
+                if (!result.IsValid)
+                    return BadRequest(result.ToString());
+
                 await candidateService.AddCandidateAsync(candidateDto);
 
                 logger.LogInformation("Candidate created succesfully");
@@ -76,7 +88,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -86,7 +98,14 @@ namespace Voting_System.Controllers
         {
             try
             {
-                await candidateService.PatchCandidateAsync(candidateId, property);
+                var candidatePatchDto = JsonConvert.DeserializeObject<CandidatePatchDto>(property.ToString());
+
+                var result = await candidatePatchDtoValidator.ValidateAsync(candidatePatchDto);
+
+                if (!result.IsValid)
+                    return BadRequest(result.ToString());
+
+                await candidateService.PatchCandidateAsync(candidateId, candidatePatchDto);
 
                 logger.LogInformation("Candidate updated succesfully");
 
@@ -96,7 +115,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -117,7 +136,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -135,7 +154,7 @@ namespace Voting_System.Controllers
             {
                 logger.LogInformation(ex.Message);
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

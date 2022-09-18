@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.Models.CandidateDto;
 using Voting_System.Domain.Entities;
@@ -43,14 +42,16 @@ namespace Voting_System.Application.Services
                 await candidateRepository.RemoveCandidateAsync(candidate);
         }
 
-        public async Task PatchCandidateAsync(Guid candidateId, dynamic property)
+        public async Task PatchCandidateAsync(Guid candidateId, CandidatePatchDto candidatePatchDto)
         {
             var candidate = await candidateRepository.GetCandidateAsync(candidateId);
-            var candidatePatchDto = JsonConvert.DeserializeObject<CandidatePatchDto>(property.ToString());
 
-            var mappedCandidate = mapper.Map<CandidatePatchDto, Candidate>(candidatePatchDto, candidate);
+            if (candidate is not null)
+            {
+                var mappedCandidate = mapper.Map<CandidatePatchDto, Candidate>(candidatePatchDto, candidate);
 
-            await candidateRepository.UpdateCandidateAsync(mappedCandidate);
+                await candidateRepository.UpdateCandidateAsync(mappedCandidate);
+            }
         }
 
         public async Task<bool> VoteCandidateAsync(Guid userId, Guid candidateId)

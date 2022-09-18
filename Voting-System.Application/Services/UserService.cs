@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
 using Voting_System.Application.Models.UserDto;
@@ -49,14 +48,16 @@ namespace Voting_System.Application.Services
             return mapper.Map<UserRequestDto>(user);
         }
 
-        public async Task UpdateUserAsync(Guid userId, dynamic property)
+        public async Task UpdateUserAsync(Guid userId, UserPatchDto userPatch)
         {
-            var userPatch = JsonConvert.DeserializeObject<UserPatchDto>(property.ToString());
             var user = await userRepository.GetUserByIdAsync(userId);
 
-            var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
+            if (user is not null)
+            {
+                var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
 
-            await userRepository.UpdateUserAsync(mappedUser);
+                await userRepository.UpdateUserAsync(mappedUser);
+            }
         }
 
         public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)

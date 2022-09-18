@@ -80,3 +80,4 @@ C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\BouncyCastle.
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
 C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Tibi\Desktop\Voting-System\Voting-System\bin\Debug\net6.0\Newtonsoft.Json.dll
