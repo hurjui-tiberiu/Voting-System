@@ -7,7 +7,7 @@ namespace Voting_System.Application.Interfaces
         Task AddCandidateAsync(CandidateRequestDto candidate);
         Task RemoveCandidateAsync(Guid candidateId);
         Task<List<CandidateRequestDto>> GetAllCandidatesAsync();
-        Task PatchCandidateAsync(Guid candidateId, dynamic property);
+        Task PatchCandidateAsync(Guid candidateId, CandidatePatchDto candidatePatchDto);
         Task<bool> VoteCandidateAsync(Guid userId, Guid candidateId);
         Task<List<CandidatesVotingStatus>> GetCandidatesVotingStatusAsync();
     }

@@ -9,7 +9,9 @@ using System.Reflection;
 using System.Text;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
-using Voting_System.Application.Models.FluentValidation;
+using Voting_System.Application.Models.CandidateDto;
+using Voting_System.Application.Models.FluentValidation.CandidateValidators;
+using Voting_System.Application.Models.FluentValidation.UserValidators;
 using Voting_System.Application.Models.MailDto;
 using Voting_System.Application.Models.UserDto;
 using Voting_System.Application.Services;
@@ -46,6 +48,10 @@ builder.Services.AddDbContext<EFContext>(
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IValidator<UserRequestDto>, UserRequestDtoValidator>();
+builder.Services.AddScoped<IValidator<UserPatchDto>, UserPatchDtoValidator>();
+
+builder.Services.AddScoped<IValidator<CandidateRequestDto>, CandidateRequestDtoValidator>();
+builder.Services.AddScoped<IValidator<CandidatePatchDto>, CandidatePatchDtoValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 

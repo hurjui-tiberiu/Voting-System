@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
@@ -16,15 +17,17 @@ namespace Voting_System.Controllers
         private readonly IUserService userService;
         private readonly IMailService mailService;
         private readonly ILogger logger;
-        private readonly IValidator<UserRequestDto> validator;
+        private readonly IValidator<UserRequestDto> userRequestDtoValidator;
+        private readonly IValidator<UserPatchDto> userPatchDtoValidator;
 
         public UserController(IUserService userService, ILogger<UserController> logger, 
-                              IMailService mailService, IValidator<UserRequestDto> validator)
+         IMailService mailService, IValidator<UserRequestDto> validator, IValidator<UserPatchDto> userPatchDtoValidator)
         {
             this.userService = userService;
             this.logger = logger;
             this.mailService = mailService;
-            this.validator = validator;
+            this.userRequestDtoValidator = validator;
+            this.userPatchDtoValidator = userPatchDtoValidator;
         }
 
         [SwaggerOperation(Summary = "Authenticate | Auth:Anonymous")]
@@ -112,7 +115,7 @@ namespace Voting_System.Controllers
         {
             try
             {
-                var result = await validator.ValidateAsync(userDto);
+                var result = await userRequestDtoValidator.ValidateAsync(userDto);
 
                 if (!result.IsValid)
                 {
@@ -161,12 +164,21 @@ namespace Voting_System.Controllers
         }
 
         [SwaggerOperation(Summary = "Edit user | Auth:User")]
-        [HttpPatch, Route("post"), AuthorizeMultiplePolicy(Policies.User + ";" + Policies.Admin, true)]
+        [HttpPatch, Route("post"), AuthorizeMultiplePolicy(Policies.User + ";" + Policies.Admin, false)]
         public async Task<IActionResult> UpdateUserAsync(Guid userId, [FromBody] dynamic property)
         {
             try
             {
-                await userService.UpdateUserAsync(userId, property);
+                var userPatch = JsonConvert.DeserializeObject<UserPatchDto>(property.ToString());
+
+                var result = await userPatchDtoValidator.ValidateAsync(userPatch);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.ToString());
+                }
+
+                await userService.UpdateUserAsync(userId, userPatch);
                 logger.LogInformation("User updated succesfully.");
 
                 return Ok();
