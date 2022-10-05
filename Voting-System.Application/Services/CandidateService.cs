@@ -1,11 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.Models.CandidateDto;
 using Voting_System.Domain.Entities;
@@ -17,17 +10,19 @@ namespace Voting_System.Application.Services
     {
         private readonly ICandidateRepository candidateRepository;
         private readonly IMapper mapper;
+        private readonly IUserRepository userRepository;
 
-        public CandidateService(ICandidateRepository candidateRepository, IMapper mapper)
+        public CandidateService(ICandidateRepository candidateRepository, IMapper mapper, IUserRepository userRepository)
         {
             this.candidateRepository = candidateRepository;
             this.mapper = mapper;
+            this.userRepository = userRepository;
         }
 
 
         public async Task AddCandidateAsync(CandidateRequestDto candidateDto)
         {
-            var candidate =  mapper.Map<Candidate>(candidateDto);
+            var candidate = mapper.Map<Candidate>(candidateDto);
 
             await candidateRepository.AddCandidateAsync(candidate);
         }
@@ -42,31 +37,59 @@ namespace Voting_System.Application.Services
         public async Task RemoveCandidateAsync(Guid candidateId)
         {
             var candidate = await candidateRepository.GetCandidateAsync(candidateId);
-            
-            if(candidate is not null)
-              await candidateRepository.RemoveCandidateAsync(candidate);
+
+            if (candidate is not null)
+                await candidateRepository.RemoveCandidateAsync(candidate);
         }
 
-        public async Task PatchCandidateAsync(Guid candidateId, dynamic property)
+        public async Task PatchCandidateAsync(Guid candidateId, CandidatePatchDto candidatePatchDto)
         {
             var candidate = await candidateRepository.GetCandidateAsync(candidateId);
-            var candidatePatchDto = JsonConvert.DeserializeObject<CandidatePatchDto>(property.ToString());
 
-            var mappedCandidate = mapper.Map<CandidatePatchDto, Candidate>(candidatePatchDto, candidate);
+            if (candidate is not null)
+            {
+                var mappedCandidate = mapper.Map<CandidatePatchDto, Candidate>(candidatePatchDto, candidate);
 
-            await candidateRepository.UpdateCandidateAsync(mappedCandidate);
+                await candidateRepository.UpdateCandidateAsync(mappedCandidate);
+            }
         }
 
-        public async Task VoteCandidate(Guid candidateId)
+        public async Task<bool> VoteCandidateAsync(Guid userId, Guid candidateId)
         {
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            if (user is null || user.Voted == true)
+                return false;
+
             var candidate = await candidateRepository.GetCandidateAsync(candidateId);
 
             if (candidate is not null)
             {
                 candidate.Votes++;
                 await candidateRepository.UpdateCandidateAsync(candidate);
+                user.Voted = true;
+                await userRepository.UpdateUserAsync(user);
             }
+
+            return true;
         }
 
+        public async Task<List<CandidatesVotingStatus>> GetCandidatesVotingStatusAsync()
+        {
+            var candidates = await candidateRepository.GetAllCandidatesAsync();
+
+            var votesCount = candidates.Sum(candidate => candidate.Votes);
+
+            var candidateVotingStatus = mapper.Map<List<CandidatesVotingStatus>>(candidates);
+
+            foreach (var candidateDto in candidateVotingStatus)
+            {
+                if (candidateDto.Votes > 0)
+                    candidateDto.PercentageOfVotes = (Convert.ToDecimal(candidateDto.Votes) / votesCount) * 100;
+                else candidateDto.PercentageOfVotes = 0;
+            }
+
+            return candidateVotingStatus;
+        }
     }
 }

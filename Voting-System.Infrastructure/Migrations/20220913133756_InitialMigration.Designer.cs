@@ -12,7 +12,7 @@ using Voting_System.Infrastructure.Contexts;
 namespace Voting_System.Infrastructure.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20220913102148_InitialMigration")]
+    [Migration("20220913133756_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,12 @@ namespace Voting_System.Infrastructure.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Voted")

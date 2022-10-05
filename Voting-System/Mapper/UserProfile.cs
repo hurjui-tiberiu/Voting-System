@@ -4,7 +4,7 @@ using Voting_System.Domain.Entities;
 
 namespace Voting_System.Mapper
 {
-    public class UserProfile:Profile
+    public class UserProfile : Profile
     {
         public UserProfile()
         {
