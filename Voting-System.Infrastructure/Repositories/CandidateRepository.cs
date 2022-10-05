@@ -1,29 +1,51 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using Voting_System.Domain.Entities;
+using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
 
 namespace Voting_System.Infrastructure.Repositories
 {
     public class CandidateRepository : ICandidateRepository
     {
-        public Task<IActionResult> AddCandidateAsync(Candidate candidate)
+        private readonly EFContext context;
+
+        public CandidateRepository(EFContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        public Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync()
+        public async Task AddCandidateAsync(Candidate candidate)
         {
-            throw new NotImplementedException();
+            context.Add(candidate);
+
+            await context.SaveChangesAsync();
         }
 
-        public Task<IActionResult> RemoveCandidateAsync(Guid candidateId)
+        public async Task<List<Candidate>> GetAllCandidatesAsync()
         {
-            throw new NotFiniteNumberException();
+            var candidates = await context.Candidates.ToListAsync();
+
+            return candidates;
+        }
+
+        public async Task RemoveCandidateAsync(Candidate candidate)
+        {
+            context.Remove(candidate);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<Candidate?> GetCandidateAsync(Guid candidateId)
+        {
+            return await context.Candidates.FirstOrDefaultAsync(entity => entity.Id.Equals(candidateId));
+        }
+
+        public async Task UpdateCandidateAsync(Candidate candidate)
+        {
+            context.Update(candidate);
+
+
+            await context.SaveChangesAsync();
+
         }
     }
 }

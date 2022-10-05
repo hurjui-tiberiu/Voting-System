@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Voting_System.Application.Interfaces;
+using Voting_System.Application.JWTUtil;
+using Voting_System.Application.Models.UserDto;
 using Voting_System.Domain.Entities;
+using Voting_System.Domain.Enums;
 using Voting_System.Infrastructure.Interfaces;
 
 namespace Voting_System.Application.Services
@@ -14,36 +11,82 @@ namespace Voting_System.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
+        private readonly IMapper mapper;
+        private readonly IJwtUtils jwtUtils;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper, IJwtUtils jwtUtils)
         {
             this.userRepository = userRepository;
+            this.mapper = mapper;
+            this.jwtUtils = jwtUtils;
         }
 
-        public async Task<IActionResult> CreateUserAsync(User user)
+        public async Task CreateUserAsync(UserRequestDto userDto)
         {
-            return await userRepository.CreateUserAsync(user);
+            var user = mapper.Map<User>(userDto);
+            user.Role = Role.User;
+
+            await userRepository.CreateUserAsync(user);
         }
 
-        public async Task<IActionResult> DeleteUserAsync(Guid userId)
+        public async Task DeleteUserAsync(Guid userId)
         {
-           return await userRepository.DeleteUserAsync(userId);
+            var user = await userRepository.GetUserByIdAsync(userId);
+            if (user is not null)
+                await userRepository.DeleteUserAsync(user);
         }
 
-        public async Task<ActionResult<List<User>>> GetAllUsersAsync()
+        public async Task<List<UserRequestDto>> GetAllUsersAsync()
         {
-            return await userRepository.GetAllUsersAsync();
+            var users = await userRepository.GetAllUsersAsync();
+            return mapper.Map<List<UserRequestDto>>(users);
         }
 
-        public async Task<ActionResult> GetUserByIdAsync(Guid userId)
+        public async Task<UserRequestDto> GetUserByIdAsync(Guid userId)
         {
-            return await GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByIdAsync(userId);
+            return mapper.Map<UserRequestDto>(user);
         }
 
-        public async Task<IActionResult> UpdateUserAsync(Guid userId, dynamic property)
+        public async Task UpdateUserAsync(Guid userId, UserPatchDto userPatch)
         {
-            var userPatch = JsonConvert.DeserializeObject<User>(property.ToString());
-            return await userRepository.UpdateUserAsync(userPatch);
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            if (user is not null)
+            {
+                var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
+
+                await userRepository.UpdateUserAsync(mappedUser);
+            }
+        }
+
+        public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)
+        {
+            var user = await userRepository.GetUserByEmailAsync(userLoginDto.Email!);
+
+            if (user is null)
+                return null;
+
+            if (user.Password!.Equals(userLoginDto.Password))
+            {
+                user.Token = jwtUtils.GenerateToken(user);
+                await userRepository.UpdateUserAsync(user);
+
+                return user.Token;
+            }
+
+            return null;
+        }
+
+        public async Task Deauthenticate(Guid userId)
+        {
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            if (user is not null)
+            {
+                user.Token = null;
+                await userRepository.UpdateUserAsync(user);
+            }
         }
     }
 }

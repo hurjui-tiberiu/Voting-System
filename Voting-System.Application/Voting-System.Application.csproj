@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,14 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="MailKit" Version="3.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="MimeKit" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Voting-System.Domain\Voting-System.Domain.csproj" />
     <ProjectReference Include="..\Voting-System.Infrastructure\Voting-System.Infrastructure.csproj" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Voting_System.Domain.Entities;
+﻿using Voting_System.Application.Models.CandidateDto;
 
 namespace Voting_System.Application.Interfaces
 {
     public interface ICandidateService
     {
-        Task<IActionResult> AddCandidateAsync(Candidate candidate);
-        Task<IActionResult> RemoveCandidateAsync(Guid candidateId);
-        Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync();
+        Task AddCandidateAsync(CandidateRequestDto candidate);
+        Task RemoveCandidateAsync(Guid candidateId);
+        Task<List<CandidateRequestDto>> GetAllCandidatesAsync();
+        Task PatchCandidateAsync(Guid candidateId, CandidatePatchDto candidatePatchDto);
+        Task<bool> VoteCandidateAsync(Guid userId, Guid candidateId);
+        Task<List<CandidatesVotingStatus>> GetCandidatesVotingStatusAsync();
     }
 }

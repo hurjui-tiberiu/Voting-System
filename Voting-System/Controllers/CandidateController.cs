@@ -1,40 +1,161 @@
-﻿
-
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 using Voting_System.Application.Interfaces;
-using Voting_System.Domain.Entities;
+using Voting_System.Application.JWTUtil;
+using Voting_System.Application.Models.CandidateDto;
 
 namespace Voting_System.Controllers
 {
-    [Route("api/[controler]"), ApiController]
-    public class CandidateController:ControllerBase
+    [Authorize]
+    [ApiController, Route("api/[controller]/")]
+    public class CandidateController : ControllerBase
     {
         private readonly ICandidateService candidateService;
-        private readonly ILogger<CandidateController> logger;
+        private readonly ILogger logger;
+        private readonly IValidator<CandidateRequestDto> candidateRequestDtoValidator;
+        private readonly IValidator<CandidatePatchDto> candidatePatchDtoValidator;
 
-        public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger)
+        public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger,
+        IValidator<CandidateRequestDto> candidateRequestDtoValidator, IValidator<CandidatePatchDto> candidatePatchDtoValidator)
         {
             this.candidateService = candidateService;
             this.logger = logger;
+            this.candidateRequestDtoValidator = candidateRequestDtoValidator;
+            this.candidatePatchDtoValidator = candidatePatchDtoValidator;
         }
 
-        [HttpGet, Route("/get")]
-        public async Task<ActionResult<List<Candidate>>> GetAllCandidatesAsync()
+        [SwaggerOperation(Summary = "Get all candidates | Auth:Anonymous")]
+        [HttpGet, Route("candidates"), AllowAnonymous]
+        public async Task<ActionResult<List<CandidateRequestDto>>> GetAllCandidatesAsync()
         {
-            return await candidateService.GetAllCandidatesAsync();
+            try
+            {
+                var candidates = await candidateService.GetAllCandidatesAsync();
+
+                logger.LogInformation("Candidates retrived: {count}", candidates.Count);
+
+                return Ok(candidates);
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpDelete, Route("/delete")]
+        [SwaggerOperation(Summary = "Delete candidate | Auth:Admin")]
+        [HttpDelete, Route("{candidateId}"), AuthorizeMultiplePolicy(Policies.Admin, false)]
         public async Task<IActionResult> DeleteCandidateAsync(Guid candidateId)
         {
-            return await candidateService.RemoveCandidateAsync(candidateId);
+            try
+            {
+                await candidateService.RemoveCandidateAsync(candidateId);
+
+                logger.LogInformation("Candidate deleted succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPut, Route("/put")]
-        public async Task<IActionResult> AddCandidate(Candidate candidate)
+        [SwaggerOperation(Summary = "Add candidate | Auth:Admin")]
+        [HttpPut, Route("addcandidate"), AuthorizeMultiplePolicy(Policies.Admin, true)]
+        public async Task<IActionResult> AddCandidateAsync(CandidateRequestDto candidateDto)
         {
-            return await candidateService.AddCandidateAsync(candidate);
+            try
+            {
+                var result = await candidateRequestDtoValidator.ValidateAsync(candidateDto);
+
+                if (!result.IsValid)
+                    return BadRequest(result.ToString());
+
+                await candidateService.AddCandidateAsync(candidateDto);
+
+                logger.LogInformation("Candidate created succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
         }
-        
+
+        [SwaggerOperation(Summary = "Edit candidate | Auth:Admin")]
+        [HttpPatch, Route("{candidateId}"), AuthorizeMultiplePolicy(Policies.Admin, true)]
+        public async Task<IActionResult> PatchCandidateAsync(Guid candidateId, dynamic property)
+        {
+            try
+            {
+                var candidatePatchDto = JsonConvert.DeserializeObject<CandidatePatchDto>(property.ToString());
+
+                var result = await candidatePatchDtoValidator.ValidateAsync(candidatePatchDto);
+
+                if (!result.IsValid)
+                    return BadRequest(result.ToString());
+
+                await candidateService.PatchCandidateAsync(candidateId, candidatePatchDto);
+
+                logger.LogInformation("Candidate updated succesfully");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [SwaggerOperation(Summary = "Vote candidate | Auth:User")]
+        [HttpPost, Route("vote/{userId}/{candidateId}"), AuthorizeMultiplePolicy(Policies.User, true)]
+        public async Task<IActionResult> VoteCandidateAsync(Guid userId, Guid candidateId)
+        {
+            try
+            {
+                var result = await candidateService.VoteCandidateAsync(userId, candidateId);
+
+                if (result == false)
+                    return BadRequest();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [SwaggerOperation(Summary = "Check voting status | Auth:User")]
+        [HttpGet, Route("votingstatus"), AuthorizeMultiplePolicy(Policies.User + ";" + Policies.Admin, false)]
+        public async Task<ActionResult<List<CandidatesVotingStatus>>> GetCandidatesVotingStatusAsync()
+        {
+            try
+            {
+                var candidatesVotingStatus = await candidateService.GetCandidatesVotingStatusAsync();
+
+                return Ok(candidatesVotingStatus);
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
