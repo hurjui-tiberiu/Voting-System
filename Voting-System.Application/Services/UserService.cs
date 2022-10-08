@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using System.Security.Cryptography;
+using System.Text;
+using Voting_System.Application.Encryption;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
 using Voting_System.Application.Models.UserDto;
@@ -25,6 +28,8 @@ namespace Voting_System.Application.Services
         {
             var user = mapper.Map<User>(userDto);
             user.Role = Role.User;
+            user.Password=Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
+
 
             await userRepository.CreateUserAsync(user);
         }
@@ -67,7 +72,7 @@ namespace Voting_System.Application.Services
             if (user is null)
                 return null;
 
-            if (user.Password!.Equals(userLoginDto.Password))
+            if (userLoginDto.Password!.Equals(Encryptor.DecryptCipherTextToPlainText(user.Password!)))
             {
                 user.Token = jwtUtils.GenerateToken(user);
                 await userRepository.UpdateUserAsync(user);
@@ -88,5 +93,6 @@ namespace Voting_System.Application.Services
                 await userRepository.UpdateUserAsync(user);
             }
         }
+
     }
 }

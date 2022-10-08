@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Voting-System.Domain\Voting-System.Domain.csproj" />
     <ProjectReference Include="..\Voting-System.Infrastructure\Voting-System.Infrastructure.csproj" />
   </ItemGroup>
 
