@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using System.Security.Cryptography;
-using System.Text;
 using Voting_System.Application.Encryption;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
@@ -28,8 +26,7 @@ namespace Voting_System.Application.Services
         {
             var user = mapper.Map<User>(userDto);
             user.Role = Role.User;
-            user.Password=Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
-
+            user.Password = Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
 
             await userRepository.CreateUserAsync(user);
         }
@@ -65,6 +62,17 @@ namespace Voting_System.Application.Services
             }
         }
 
+        public async Task Deauthenticate(Guid userId)
+        {
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            if (user is not null)
+            {
+                user.Token = null;
+                await userRepository.UpdateUserAsync(user);
+            }
+        }
+
         public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)
         {
             var user = await userRepository.GetUserByEmailAsync(userLoginDto.Email!);
@@ -82,17 +90,5 @@ namespace Voting_System.Application.Services
 
             return null;
         }
-
-        public async Task Deauthenticate(Guid userId)
-        {
-            var user = await userRepository.GetUserByIdAsync(userId);
-
-            if (user is not null)
-            {
-                user.Token = null;
-                await userRepository.UpdateUserAsync(user);
-            }
-        }
-
     }
 }
