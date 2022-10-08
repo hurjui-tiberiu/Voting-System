@@ -1147,7 +1147,6 @@
           "MailKit": "3.4.1",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "MimeKit": "3.4.1",
-          "Voting-System.Domain": "1.0.0",
           "Voting-System.Infrastructure": "1.0.0"
         },
         "runtime": {

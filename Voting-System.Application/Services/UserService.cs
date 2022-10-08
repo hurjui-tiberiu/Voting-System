@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Voting_System.Application.Encryption;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
 using Voting_System.Application.Models.UserDto;
@@ -25,6 +26,7 @@ namespace Voting_System.Application.Services
         {
             var user = mapper.Map<User>(userDto);
             user.Role = Role.User;
+            user.Password = Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
 
             await userRepository.CreateUserAsync(user);
         }
@@ -60,24 +62,6 @@ namespace Voting_System.Application.Services
             }
         }
 
-        public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)
-        {
-            var user = await userRepository.GetUserByEmailAsync(userLoginDto.Email!);
-
-            if (user is null)
-                return null;
-
-            if (user.Password!.Equals(userLoginDto.Password))
-            {
-                user.Token = jwtUtils.GenerateToken(user);
-                await userRepository.UpdateUserAsync(user);
-
-                return user.Token;
-            }
-
-            return null;
-        }
-
         public async Task Deauthenticate(Guid userId)
         {
             var user = await userRepository.GetUserByIdAsync(userId);
@@ -87,6 +71,24 @@ namespace Voting_System.Application.Services
                 user.Token = null;
                 await userRepository.UpdateUserAsync(user);
             }
+        }
+
+        public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)
+        {
+            var user = await userRepository.GetUserByEmailAsync(userLoginDto.Email!);
+
+            if (user is null)
+                return null;
+
+            if (userLoginDto.Password!.Equals(Encryptor.DecryptCipherTextToPlainText(user.Password!)))
+            {
+                user.Token = jwtUtils.GenerateToken(user);
+                await userRepository.UpdateUserAsync(user);
+
+                return user.Token;
+            }
+
+            return null;
         }
     }
 }
