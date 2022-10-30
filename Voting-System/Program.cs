@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -52,6 +53,12 @@ builder.Services.AddScoped<IValidator<UserPatchDto>, UserPatchDtoValidator>();
 
 builder.Services.AddScoped<IValidator<CandidateRequestDto>, CandidateRequestDtoValidator>();
 builder.Services.AddScoped<IValidator<CandidatePatchDto>, CandidatePatchDtoValidator>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "Voting-System_";
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
