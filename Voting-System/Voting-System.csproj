@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	
+
   <PropertyGroup>
 	  <NoWarn>$(NoWarn);NU1605</NoWarn>
     <TargetFramework>net6.0</TargetFramework>
