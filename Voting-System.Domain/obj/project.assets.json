@@ -687,11 +687,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
       "projectName": "Voting-System.Domain",
-      "projectPath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
+      "projectPath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
       "packagesPath": "C:\\Users\\Tibi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System.Domain\\obj\\",
+      "outputPath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System\\Voting-System.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Tibi\\AppData\\Roaming\\NuGet\\NuGet.Config",
