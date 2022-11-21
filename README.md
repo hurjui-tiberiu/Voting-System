@@ -15,7 +15,7 @@ Admins have access to:
 
 Anyone can create an account and see the candidates.  
 
-##H ow to run the application:  
+## How to run the application:  
 
 -Download and extract the archive  
 -In appsettings.json add email creditals (email account that sends notifications)  
