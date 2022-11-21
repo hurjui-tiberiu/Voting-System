@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "y8kUwj0kxFqjE/+1zxkjdwpBLAFREwqj4xG7JUb60q922bye5sBq8wbSNKUy5jQOryPO+pwO/t8TBr6icO95Cw==",
+  "dgSpecHash": "TMo+3Xm6FMJzPMnL1ewbqW6EcessoHJR7GonVtD0+H42u1JBAR+fOsZNNhsDk/Fe2AFM70zbGv0xjv1kbzz6UQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System.Application\\Voting-System.Application.csproj",
+  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\vs\\Voting-System\\Voting-System.Application\\Voting-System.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tibi\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\Tibi\\.nuget\\packages\\fluentvalidation\\11.2.2\\fluentvalidation.11.2.2.nupkg.sha512",
