@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+8UueGZ5mZO9WzgQDRacUalrSkoEBeH1Tyjmu5g7nDSJwG8jLHfbu/GvD09kiKb7cGboiE7/CwqcZlSN51lMXw==",
+  "dgSpecHash": "CmRAxhnkdipFDwTkD6USKaBRts2FyaYdtuuhuxAWN5ueahBscp8LWASJpyzbatlUnSY/4wox+qui74BZ97e0fg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\vs\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tibi\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Tibi\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

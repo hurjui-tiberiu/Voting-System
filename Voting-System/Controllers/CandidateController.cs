@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
 using Voting_System.Application.Models.CandidateDto;
+using Voting_System.Extensions;
 
 namespace Voting_System.Controllers
 {
@@ -17,14 +19,17 @@ namespace Voting_System.Controllers
         private readonly ILogger logger;
         private readonly IValidator<CandidateRequestDto> candidateRequestDtoValidator;
         private readonly IValidator<CandidatePatchDto> candidatePatchDtoValidator;
+        private readonly IDistributedCache cache;
 
         public CandidateController(ICandidateService candidateService, ILogger<CandidateController> logger,
-        IValidator<CandidateRequestDto> candidateRequestDtoValidator, IValidator<CandidatePatchDto> candidatePatchDtoValidator)
+        IValidator<CandidateRequestDto> candidateRequestDtoValidator, IValidator<CandidatePatchDto> candidatePatchDtoValidator,
+        IDistributedCache cache)
         {
             this.candidateService = candidateService;
             this.logger = logger;
             this.candidateRequestDtoValidator = candidateRequestDtoValidator;
             this.candidatePatchDtoValidator = candidatePatchDtoValidator;
+            this.cache = cache;
         }
 
         [SwaggerOperation(Summary = "Get all candidates | Auth:Anonymous")]
@@ -33,7 +38,16 @@ namespace Voting_System.Controllers
         {
             try
             {
-                var candidates = await candidateService.GetAllCandidatesAsync();
+                string recordKey = "Candidates_" + DateTime.Now.ToString();
+
+                var candidates = await cache.GetRecordAsync<List<CandidateRequestDto>>(recordKey);
+
+                if (candidates is null)
+                {
+                    candidates = await candidateService.GetAllCandidatesAsync();
+                    await cache.SetRecordAsync<List<CandidateRequestDto>>(recordKey, candidates);
+
+                }
 
                 logger.LogInformation("Candidates retrived: {count}", candidates.Count);
 
@@ -146,7 +160,16 @@ namespace Voting_System.Controllers
         {
             try
             {
-                var candidatesVotingStatus = await candidateService.GetCandidatesVotingStatusAsync();
+                string recordKey = "CandidatesVotingStatus_" + DateTime.Now.ToString();
+
+                var candidatesVotingStatus = await cache.GetRecordAsync<List<CandidatesVotingStatus>>(recordKey);
+
+                if (candidatesVotingStatus is null)
+                {
+                    candidatesVotingStatus = await candidateService.GetCandidatesVotingStatusAsync();
+                    await cache.SetRecordAsync<List<CandidatesVotingStatus>>(recordKey, candidatesVotingStatus);
+
+                }
 
                 return Ok(candidatesVotingStatus);
             }
