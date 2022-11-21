@@ -1,4 +1,4 @@
-#Voting System
+# Voting System
 
 Application for voting election candidates.  
 In order to vote a candidate you need to create an user account.  
@@ -15,7 +15,7 @@ Admins have access to:
 
 Anyone can create an account and see the candidates.  
 
-##How to run the application:  
+##H ow to run the application:  
 
 -Download and extract the archive  
 -In appsettings.json add email creditals (email account that sends notifications)  
