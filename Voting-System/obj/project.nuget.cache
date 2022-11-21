@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "T8N/Vuq+wp9U0y7yUDMSUspe6nDAkbLIK8FECKhuNXdjRfoLpZA7PWvdJD4anPG+8zWR2DFRQdE/qxdfrYXesA==",
+  "dgSpecHash": "cZ8TYIB3jDZfz6J1w8fzUqVOfH4JpI5GGGrftMtexyzLpk9APZ4sNJOhO7XriZ7cVBJw2lhcLonmZeoNt+3fvw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System\\Voting-System.csproj",
+  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\vs\\Voting-System\\Voting-System\\Voting-System.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tibi\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\Tibi\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

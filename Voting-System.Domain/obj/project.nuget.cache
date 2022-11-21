@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5q6CUjCUlrglSkdRSRuNc4eAGvMmIdBzB9qzx6oWSwpCfe4GRBEcZjuSemNs87NaGxG4nNpussdAYg0mdXNsVA==",
+  "dgSpecHash": "mX74+bFNiIbz6jy40d2qdeHKLXu7khnFxNM6vE/Tjz8s9pXFKeoXGGES8SxOxiBtaVvfc+jriQ2N941hDJzjww==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
+  "projectFilePath": "C:\\Users\\Tibi\\Desktop\\vs\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tibi\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Tibi\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.8\\microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
