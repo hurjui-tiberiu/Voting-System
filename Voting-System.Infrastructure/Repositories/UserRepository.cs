@@ -48,5 +48,12 @@ namespace Voting_System.Infrastructure.Repositories
 
             return user;
         }
+
+        public async Task<User?> GetUserByPersonalIdAsync(string personalId)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(entity => entity.IdentityCardId!.Equals(personalId));
+
+            return user;
+        }
     }
 }

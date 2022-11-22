@@ -10,5 +10,6 @@ namespace Voting_System.Infrastructure.Interfaces
         Task<List<User>> GetAllUsersAsync();
         Task UpdateUserAsync(User user);
         Task<User?> GetUserByEmailAsync(string mail);
+        Task<User?> GetUserByPersonalIdAsync(string personalId);
     }
 }
