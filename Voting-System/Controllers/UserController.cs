@@ -90,8 +90,8 @@ namespace Voting_System.Controllers
             }
         }
 
-        [SwaggerOperation(Summary = "Get all users | Auth:User")]
-        [HttpGet, Route("users"), AuthorizeMultiplePolicy(Policies.Admin + ";" + Policies.User, false)]
+        [SwaggerOperation(Summary = "Get all users | Auth:Admin")]
+        [HttpGet, Route("users"), AuthorizeMultiplePolicy(Policies.Admin, true)]
         public async Task<ActionResult<List<UserRequestDto>>> GetAllUsersAsync()
         {
             try
@@ -120,6 +120,12 @@ namespace Voting_System.Controllers
                 if (!result.IsValid)
                 {
                     return BadRequest(result.ToString());
+                }
+
+                if (await userService.CreateUserAsync(userDto) is false)
+                {
+                    logger.LogInformation("User already exists.");
+                    return BadRequest();
                 }
 
                 await userService.CreateUserAsync(userDto);

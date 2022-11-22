@@ -22,13 +22,24 @@ namespace Voting_System.Application.Services
             this.jwtUtils = jwtUtils;
         }
 
-        public async Task CreateUserAsync(UserRequestDto userDto)
+        public async Task<bool> CreateUserAsync(UserRequestDto userDto)
         {
+            var userByEmail = await userRepository.GetUserByEmailAsync(userDto.Mail!);
+
+            if (userByEmail is not null)
+                return false;
+
+            var userByPersonalId = await userRepository.GetUserByPersonalIdAsync(userDto.IdentityCardId!);
+            if (userByPersonalId is not null)
+                return false;
+
             var user = mapper.Map<User>(userDto);
             user.Role = Role.User;
             user.Password = Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
 
             await userRepository.CreateUserAsync(user);
+
+            return true;
         }
 
         public async Task DeleteUserAsync(Guid userId)
