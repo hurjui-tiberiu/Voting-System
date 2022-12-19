@@ -18,16 +18,16 @@ namespace Voting_System.Controllers
         private readonly IMailService mailService;
         private readonly ILogger logger;
         private readonly IValidator<UserRequestDto> userRequestDtoValidator;
-        private readonly IValidator<UserPatchDto> userPatchDtoValidator;
+        private readonly IValidator<UserPatchDto> userPatchValidator;
 
-        public UserController(IUserService userService, ILogger<UserController> logger, 
-         IMailService mailService, IValidator<UserRequestDto> validator, IValidator<UserPatchDto> userPatchDtoValidator)
+        public UserController(IUserService userService, ILogger<UserController> logger,
+         IMailService mailService, IValidator<UserRequestDto> validator, IValidator<UserPatchDto> userPatchValidator)
         {
             this.userService = userService;
             this.logger = logger;
             this.mailService = mailService;
             this.userRequestDtoValidator = validator;
-            this.userPatchDtoValidator = userPatchDtoValidator;
+            this.userPatchValidator = userPatchValidator;
         }
 
         [SwaggerOperation(Summary = "Authenticate | Auth:Anonymous")]
@@ -53,7 +53,7 @@ namespace Voting_System.Controllers
         }
 
         [SwaggerOperation(Summary = "Log out | Auth:User")]
-        [HttpPost, Route("deauthenticate"), AuthorizeMultiplePolicy(Policies.User, true)]
+        [HttpPost, Route("deauthenticate"), AuthorizeMultiplePolicy(Policies.Admin + ";" + Policies.User, false)]
         public async Task<IActionResult> Deauthenticate(Guid userId)
         {
             try
@@ -177,14 +177,21 @@ namespace Voting_System.Controllers
             {
                 var userPatch = JsonConvert.DeserializeObject<UserPatchDto>(property.ToString());
 
-                var result = await userPatchDtoValidator.ValidateAsync(userPatch);
+                var validationResult = await userPatchValidator.ValidateAsync(userPatch);
 
-                if (!result.IsValid)
+                if (validationResult.IsValid is false)
                 {
-                    return BadRequest(result.ToString());
+                    return BadRequest(validationResult.ToString());
                 }
 
-                await userService.UpdateUserAsync(userId, userPatch);
+                var result = await userService.UpdateUserAsync(userId, userPatch);
+
+                if (result is false)
+                {
+                    logger.LogInformation("User not updated.");
+                    return BadRequest();
+                }
+
                 logger.LogInformation("User updated succesfully.");
 
                 return Ok();

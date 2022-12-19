@@ -1,18 +1,18 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
-using Voting_System.Application.Models.UserDto;
+using Voting_System.Domain.Entities;
 
 namespace Voting_System.Application.Models.FluentValidation.UserValidators
 {
-    public class UserPatchDtoValidator : AbstractValidator<UserPatchDto>
+    public class UserValidator : AbstractValidator<User>
     {
-        public UserPatchDtoValidator()
+        public UserValidator()
         {
             RuleFor(entity => entity.FullName)
-                .MinimumLength(5).WithMessage("Your full name can not be empty")
-                .Matches(new Regex(
-                @"^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"))
-                .WithMessage("Bad full name format");
+               .MinimumLength(5).WithMessage("Your full name can not be empty")
+               .Matches(new Regex(
+               @"^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"))
+               .WithMessage("Bad full name format");
 
             RuleFor(entity => entity.IdentityCardId)
                 .Matches(new Regex(@"^(\d{13})?$")).WithMessage("Invalid personal ID");

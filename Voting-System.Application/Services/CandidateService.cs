@@ -19,7 +19,6 @@ namespace Voting_System.Application.Services
             this.userRepository = userRepository;
         }
 
-
         public async Task AddCandidateAsync(CandidateRequestDto candidateDto)
         {
             var candidate = mapper.Map<Candidate>(candidateDto);
@@ -56,7 +55,7 @@ namespace Voting_System.Application.Services
 
         public async Task<bool> VoteCandidateAsync(Guid userId, Guid candidateId)
         {
-            var user = await userRepository.GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByPropertyAsync(x => x.Id == userId);
 
             if (user is null || user.Voted == true)
                 return false;
