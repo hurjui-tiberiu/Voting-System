@@ -1,4 +1,6 @@
-﻿using Voting_System.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq.Expressions;
+using Voting_System.Domain.Entities;
 
 namespace Voting_System.Infrastructure.Interfaces
 {
@@ -6,10 +8,8 @@ namespace Voting_System.Infrastructure.Interfaces
     {
         Task CreateUserAsync(User user);
         Task DeleteUserAsync(User user);
-        Task<User?> GetUserByIdAsync(Guid userId);
         Task<List<User>> GetAllUsersAsync();
         Task UpdateUserAsync(User user);
-        Task<User?> GetUserByEmailAsync(string mail);
-        Task<User?> GetUserByPersonalIdAsync(string personalId);
+        Task<User?> GetUserByPropertyAsync(Expression<Func<User, bool>>func);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Voting_System.Application.Encryption;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
@@ -14,28 +15,36 @@ namespace Voting_System.Application.Services
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
         private readonly IJwtUtils jwtUtils;
+        private readonly IValidator<User> userValidator;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IJwtUtils jwtUtils)
+        public UserService(IUserRepository userRepository, IMapper mapper, IJwtUtils jwtUtils, IValidator<User> userValidator)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
             this.jwtUtils = jwtUtils;
+            this.userValidator = userValidator;
         }
 
         public async Task<bool> CreateUserAsync(UserRequestDto userDto)
         {
-            var userByEmail = await userRepository.GetUserByEmailAsync(userDto.Mail!);
+            var userByEmail = await userRepository.GetUserByPropertyAsync(entity => entity.Mail!.Equals(userDto.Mail));
 
             if (userByEmail is not null)
                 return false;
 
-            var userByPersonalId = await userRepository.GetUserByPersonalIdAsync(userDto.IdentityCardId!);
+            var userByPersonalId = await userRepository.GetUserByPropertyAsync(entity => entity.IdentityCardId!.Equals(userDto.IdentityCardId!));
             if (userByPersonalId is not null)
                 return false;
 
             var user = mapper.Map<User>(userDto);
-            user.Role = Role.User;
+            user.Role = Role.Admin;
             user.Password = Encryptor.EncryptPlainTextToCipherText(userDto.Password!);
+
+
+            var validationResult = userValidator.Validate(user);
+
+            if (!validationResult.IsValid)
+                return false;
 
             await userRepository.CreateUserAsync(user);
 
@@ -44,7 +53,7 @@ namespace Voting_System.Application.Services
 
         public async Task DeleteUserAsync(Guid userId)
         {
-            var user = await userRepository.GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByPropertyAsync(entity => entity.Id.Equals(userId));
             if (user is not null)
                 await userRepository.DeleteUserAsync(user);
         }
@@ -57,25 +66,34 @@ namespace Voting_System.Application.Services
 
         public async Task<UserRequestDto> GetUserByIdAsync(Guid userId)
         {
-            var user = await userRepository.GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByPropertyAsync(entity => entity.Id == userId);
             return mapper.Map<UserRequestDto>(user);
         }
 
-        public async Task UpdateUserAsync(Guid userId, UserPatchDto userPatch)
+        public async Task<bool> UpdateUserAsync(Guid userId, UserPatchDto userPatch)
         {
-            var user = await userRepository.GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByPropertyAsync(entity => entity.Id == userId);
 
-            if (user is not null)
-            {
-                var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
+            if (user is null)
+                return false;
 
-                await userRepository.UpdateUserAsync(mappedUser);
-            }
+            var mappedUser = mapper.Map<UserPatchDto, User>(userPatch, user);
+
+            var validationResult = await userValidator.ValidateAsync(mappedUser);
+
+            if (validationResult.IsValid is false)
+                return false;
+
+            await userRepository.UpdateUserAsync(mappedUser);
+
+            return true;
         }
+
+        
 
         public async Task Deauthenticate(Guid userId)
         {
-            var user = await userRepository.GetUserByIdAsync(userId);
+            var user = await userRepository.GetUserByPropertyAsync(entity => entity.Id == userId);
 
             if (user is not null)
             {
@@ -86,7 +104,7 @@ namespace Voting_System.Application.Services
 
         public async Task<string?> AuthenticateUser(UserLoginDto userLoginDto)
         {
-            var user = await userRepository.GetUserByEmailAsync(userLoginDto.Email!);
+            var user = await userRepository.GetUserByPropertyAsync(entity => entity.Mail!.Equals(userLoginDto.Email!));
 
             if (user is null)
                 return null;

@@ -8,7 +8,7 @@ namespace Voting_System.Application.Interfaces
         Task DeleteUserAsync(Guid userId);
         Task<UserRequestDto> GetUserByIdAsync(Guid userId);
         Task<List<UserRequestDto>> GetAllUsersAsync();
-        Task UpdateUserAsync(Guid userId, UserPatchDto userPatch);
+        Task<bool>UpdateUserAsync(Guid userId, UserPatchDto userPatch);
         Task<string?> AuthenticateUser(UserLoginDto userLoginDto);
         Task Deauthenticate(Guid userId);
     }

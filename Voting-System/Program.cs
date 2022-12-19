@@ -1,13 +1,10 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
 using System.Text;
 using Voting_System.Application.Interfaces;
 using Voting_System.Application.JWTUtil;
@@ -17,6 +14,7 @@ using Voting_System.Application.Models.FluentValidation.UserValidators;
 using Voting_System.Application.Models.MailDto;
 using Voting_System.Application.Models.UserDto;
 using Voting_System.Application.Services;
+using Voting_System.Domain.Entities;
 using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
 using Voting_System.Infrastructure.Repositories;
@@ -41,7 +39,6 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 
-
 builder.Services.AddDbContext<EFContext>(
       options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBString")),
       ServiceLifetime.Transient,
@@ -49,8 +46,9 @@ builder.Services.AddDbContext<EFContext>(
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IValidator<User>, UserValidator>();
 builder.Services.AddScoped<IValidator<UserRequestDto>, UserRequestDtoValidator>();
-builder.Services.AddScoped<IValidator<UserPatchDto>, UserPatchDtoValidator>();
+builder.Services.AddScoped<IValidator<UserPatchDto>, UserPatchValidator>();
 
 builder.Services.AddScoped<IValidator<CandidateRequestDto>, CandidateRequestDtoValidator>();
 builder.Services.AddScoped<IValidator<CandidatePatchDto>, CandidatePatchDtoValidator>();

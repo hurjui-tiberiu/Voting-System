@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Voting_System.Domain.Entities;
 using Voting_System.Infrastructure.Contexts;
 using Voting_System.Infrastructure.Interfaces;
@@ -31,27 +32,15 @@ namespace Voting_System.Infrastructure.Repositories
             return await context.Users.ToListAsync();
         }
 
-        public async Task<User?> GetUserByIdAsync(Guid userId)
-        {
-            return await context.Users.FirstOrDefaultAsync(entity => entity.Id.Equals(userId));
-        }
-
         public async Task UpdateUserAsync(User user)
         {
             context.Update(user);
             await context.SaveChangesAsync();
         }
 
-        public async Task<User?> GetUserByEmailAsync(string mail)
+        public async Task<User?> GetUserByPropertyAsync(Expression<Func<User, bool>> func)
         {
-            var user = await context.Users.FirstOrDefaultAsync(entity => entity.Mail!.Equals(mail));
-
-            return user;
-        }
-
-        public async Task<User?> GetUserByPersonalIdAsync(string personalId)
-        {
-            var user = await context.Users.FirstOrDefaultAsync(entity => entity.IdentityCardId!.Equals(personalId));
+            var user = await context.Users.FirstOrDefaultAsync(func);
 
             return user;
         }

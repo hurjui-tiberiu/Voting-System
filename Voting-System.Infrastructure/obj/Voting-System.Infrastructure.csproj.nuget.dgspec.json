@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj": {}
+    "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj": {
+    "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
         "projectName": "Voting-System.Domain",
-        "projectPath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
+        "projectPath": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj",
         "packagesPath": "C:\\Users\\Tibi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tibi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -67,7 +67,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -76,18 +77,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj": {
+    "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
         "projectName": "Voting-System.Infrastructure",
-        "projectPath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Infrastructure\\Voting-System.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Tibi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tibi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -104,8 +105,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj": {
-                "projectPath": "C:\\Users\\Tibi\\Desktop\\project\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj"
+              "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj": {
+                "projectPath": "C:\\Users\\Tibi\\Desktop\\Upgraade\\Voting-System\\Voting-System.Domain\\Voting-System.Domain.csproj"
               }
             }
           }
@@ -157,7 +158,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -166,7 +168,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
